@@ -1,0 +1,79 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("Menu:");
+            System.out.println("1. Calculate Fibonacci (Non-Recursive)");
+            System.out.println("2. Calculate Fibonacci (Recursive)");
+            System.out.println("3. Exit");
+            System.out.print("Enter your choice: ");
+
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter n: ");
+                    int n = scanner.nextInt();
+                    long startTime = System.nanoTime();
+                    long result = calculateFibonacciNonRecursive(n);
+                    long endTime = System.nanoTime();
+                    long timeElapsed = endTime - startTime;
+                    System.out.println("Fibonacci(" + n + ") = " + result);
+                    System.out.println("Time taken: " + timeElapsed + " nanoseconds");
+                    break;
+                case 2:
+                    System.out.print("Enter n: ");
+                    n = scanner.nextInt();
+                    startTime = System.nanoTime();
+                    result = calculateFibonacciRecursive(n);
+                    endTime = System.nanoTime();
+                    timeElapsed = endTime - startTime;
+                    System.out.println("Fibonacci(" + n + ") = " + result);
+                    System.out.println("Time taken: " + timeElapsed + " nanoseconds");
+                    break;
+                case 3:
+                    System.out.println("Exiting program.");
+                    scanner.close();
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice. Please select a valid option.");
+            }
+        }
+    }
+
+    public static long calculateFibonacciNonRecursive(int n) {
+        if (n <= 1) {
+            return n;
+        }
+
+        long a = 0;
+        long b = 1;
+        long temp;
+        for (int i = 2; i <= n; i++) {
+            temp = a + b;
+            a = b;
+            b = temp;
+        }
+        return b;
+    }
+
+    public static long calculateFibonacciRecursive(int n) {
+        if (n <= 1) {
+            return n;
+        }
+        return calculateFibonacciRecursive(n - 1) + calculateFibonacciRecursive(n - 2);
+    }
+}
+
+
+// Non-Recursive (Iterative):
+
+// Time Complexity: O(n) - The iterative approach has a linear time complexity because it calculates Fibonacci numbers from 2 to n sequentially.
+// Space Complexity: O(1) - The iterative approach uses a constant amount of space, as it only stores two variables (a and b) for the calculation, regardless of the input value.
+// Recursive:
+
+// Time Complexity: O(2^n) - The recursive approach has exponential time complexity because it recalculates Fibonacci numbers for smaller values multiple times, leading to a large number of redundant calculations.
+// Space Complexity: O(n) - The recursive approach has linear space complexity because it builds a call stack of size 'n' due to recursive function calls.

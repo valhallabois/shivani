@@ -1,0 +1,77 @@
+import java.util.*;
+
+public class NQueens {
+    static int N;
+
+    public static boolean isSafe(int[][] matrix, int row, int col) {
+        // Check if there is a queen in the same column.
+        for (int i = 0; i < row; i++) {
+            if (matrix[i][col] == 1) {
+                return false;
+            }
+        }
+    
+        // Check if there is a queen in the same diagonal.
+        for (int i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) {
+            if (matrix[i][j] == 1) {
+                return false;
+            }
+        }
+    
+        for (int i = row - 1, j = col + 1; i >= 0 && j < N; i--, j++) {
+            if (matrix[i][j] == 1) {
+                return false;
+            }
+        }
+    
+        return true;
+    }
+
+    public static boolean solveNQueens(int[][] matrix, int row) {
+        if (row == N) {
+            return true;
+        }
+
+        for (int col = 0; col < N; col++) {
+            if (isSafe(matrix, row, col)) {
+                matrix[row][col] = 1;
+                if (solveNQueens(matrix, row + 1)) {
+                    return true;
+                }
+                matrix[row][col] = 0;
+            }
+        }
+
+        return false;
+    }
+
+    public static void printNQueens(int[][] matrix) {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter the value of N:");
+        N = scanner.nextInt();
+
+        int[][] matrix = new int[N][N];
+
+        System.out.println("Enter the row and column of the first queen:");
+        int row = scanner.nextInt();
+        int col = scanner.nextInt();
+
+        matrix[row][col] = 1;
+
+        if (solveNQueens(matrix, 0)) {
+            printNQueens(matrix);
+        } else {
+            System.out.println("No solution found");
+        }
+    }
+}

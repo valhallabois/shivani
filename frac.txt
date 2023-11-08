@@ -1,0 +1,60 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Get the number of items and the knapsack capacity from the user.
+        System.out.print("Enter the number of items: ");
+        int n = scanner.nextInt();
+        
+        System.out.print("Enter the knapsack capacity: ");
+        int capacity = scanner.nextInt();
+
+        // Create two arrays to store the weights and values of the items.
+        int[] weights = new int[n];
+        int[] values = new int[n];
+
+        // Get the weights and values of the items from the user.
+        for (int i = 0; i < n; i++) {
+            System.out.println("Enter the weight of item " + (i + 1) + ": ");
+            weights[i] = scanner.nextInt();
+
+            System.out.println("Enter the value of item " + (i + 1) + ": ");
+            values[i] = scanner.nextInt();
+        }
+
+        // Calculate the value-to-weight ratio for each item.
+        double[] valueToWeightRatio = new double[n];
+        for (int i = 0; i < n; i++) {
+            valueToWeightRatio[i] = (double) values[i] / weights[i];
+        }
+
+        // Sort the items in decreasing order of value-to-weight ratio.
+        Arrays.sort(valueToWeightRatio);
+
+        // Initialize the total value and the remaining knapsack capacity.
+        double totalValue = 0.0;
+        int remainingCapacity = capacity;
+
+        // Iterate over the items in decreasing order of value-to-weight ratio.
+        for (int i = 0; i < n; i++) {
+            // If the weight of the current item is less than or equal to the remaining capacity,
+            // add the entire item to the knapsack.
+            if (weights[i] <= remainingCapacity) {
+                totalValue += values[i];
+                remainingCapacity -= weights[i];
+            } else {
+                // Otherwise, add a fraction of the current item to the knapsack so that the remaining capacity is zero.
+                double fraction = (double) remainingCapacity / weights[i];
+                totalValue += values[i] * fraction;
+                break;
+            }
+        }
+
+        // Print the total value.
+        System.out.println("Total value: " + totalValue);
+    }
+}
